@@ -6,12 +6,12 @@ switch:
 
 # Update flake lock and switch
 update:
-    nix flake update "{{dotfiles}}"
+    nix flake update --flake "{{dotfiles}}"
     home-manager switch --flake "{{dotfiles}}#frank"
 
 # Update flake lock only
 update-lock:
-    nix flake update "{{dotfiles}}"
+    nix flake update --flake "{{dotfiles}}"
 
 # Switch using nix run (works without home-manager in PATH)
 switch-nix:
