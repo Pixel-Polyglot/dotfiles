@@ -11,6 +11,8 @@
     neovim
     just
     ghostty
+    bluespec
+    opencode
   ];
 
   home.sessionVariables = {
