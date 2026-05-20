@@ -18,9 +18,9 @@
 
   programs.git = {
     enable = true;
-    userName = "Frank de Weers";
-    userEmail = "fdeweers@gmail.com";
-    extraConfig = {
+    settings = {
+      user.name = "Frank de Weers";
+      user.email = "fdeweers@gmail.com";
       github.user = "Pixel-Polyglot";
       init.defaultBranch = "main";
     };

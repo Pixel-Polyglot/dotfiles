@@ -16,6 +16,13 @@ if ! command -v nix &>/dev/null; then
     info "Installing nix..."
     sudo pacman -S --noconfirm nix
     sudo systemctl enable --now nix-daemon
+fi
+
+# Ensure nix-users group exists and user is a member
+if ! getent group nix-users &>/dev/null; then
+    sudo groupadd nix-users
+fi
+if ! groups "$USERNAME" | grep -q nix-users; then
     sudo usermod -aG nix-users "$USERNAME"
 fi
 
@@ -30,20 +37,20 @@ if ! grep -q "experimental-features" /etc/nix/nix.conf 2>/dev/null; then
 fi
 sudo systemctl restart nix-daemon 2>/dev/null || true
 
-# 4. Re-exec with nix-users group if the current session lacks it
-if ! groups | grep -q nix-users 2>/dev/null; then
-    if command -v sg &>/dev/null; then
-        info "Re-executing with nix-users group..."
-        exec sg nix-users -c "$0"
-    else
-        warn "nix-users group not active. Log out/in and re-run this script."
-        exit 1
-    fi
-fi
-
 # 5. Apply home-manager config via flakes
 info "Applying home-manager config..."
-nix run "github:nix-community/home-manager" -- switch --flake "${DOTFILES}#frank"
+_NIX_CMD=(nix run "github:nix-community/home-manager" -- switch -b backup --flake "${DOTFILES}#frank")
+if ! nix store ping &>/dev/null; then
+    if command -v sg &>/dev/null && ! groups | grep -q nix-users 2>/dev/null; then
+        info "Using sg to run with nix-users group..."
+        sg nix-users -c "${_NIX_CMD[*]}"
+    else
+        warn "Nix daemon not reachable. Ensure nix-daemon is running."
+        "${_NIX_CMD[@]}"
+    fi
+else
+    "${_NIX_CMD[@]}"
+fi
 
 # 6. LazyVim template
 if [ -d ~/.config/nvim/.git ]; then
