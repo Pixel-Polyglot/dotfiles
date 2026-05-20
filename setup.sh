@@ -41,6 +41,7 @@ sudo systemctl restart nix-daemon 2>/dev/null || true
 info "Setting up SSH server..."
 sudo pacman -S --noconfirm --needed openssh
 sudo systemctl enable --now sshd
+sudo ufw allow 22/tcp
 
 # 5. Apply home-manager config via flakes
 info "Applying home-manager config..."
