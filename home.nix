@@ -13,6 +13,10 @@
     ghostty
   ];
 
+  home.sessionVariables = {
+    TERMINFO_DIRS = "${pkgs.ghostty.terminfo}/share/terminfo";
+  };
+
   programs.home-manager.enable = true;
   programs.fish.enable = true;
   programs.starship.enable = true;
