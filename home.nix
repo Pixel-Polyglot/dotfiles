@@ -10,6 +10,7 @@
     tmux
     neovim
     just
+    ghostty
   ];
 
   programs.home-manager.enable = true;
