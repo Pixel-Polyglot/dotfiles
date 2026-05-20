@@ -12,7 +12,7 @@
     just
     ghostty
     bluespec
-    opencode
+    sshfs
   ];
 
   home.sessionVariables = {
@@ -27,6 +27,8 @@
       $DRY_RUN_CMD git clone https://github.com/LazyVim/starter ~/.config/nvim
     fi
   '';
+
+  xdg.configFile."nvim/lua/plugins/neogit.lua".source = ./nvim/neogit.lua;
 
   programs.home-manager.enable = true;
   programs.fish.enable = true;
