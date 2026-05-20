@@ -37,6 +37,11 @@ if ! grep -q "experimental-features" /etc/nix/nix.conf 2>/dev/null; then
 fi
 sudo systemctl restart nix-daemon 2>/dev/null || true
 
+# 4. Install and enable SSH server
+info "Setting up SSH server..."
+sudo pacman -S --noconfirm --needed openssh
+sudo systemctl enable --now sshd
+
 # 5. Apply home-manager config via flakes
 info "Applying home-manager config..."
 _NIX_CMD=(nix run "github:nix-community/home-manager" -- switch -b backup --flake "${DOTFILES}#frank")

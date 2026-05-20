@@ -9,7 +9,7 @@
   home.packages = with pkgs; [
     tmux
     neovim
-    openssh
+    just
   ];
 
   programs.home-manager.enable = true;
