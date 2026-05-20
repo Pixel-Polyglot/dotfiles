@@ -58,17 +58,7 @@ else
     "${_NIX_CMD[@]}"
 fi
 
-# 6. LazyVim template
-if [ -d ~/.config/nvim/.git ]; then
-    info "Updating LazyVim starter..."
-    git -C ~/.config/nvim pull
-else
-    info "Fetching LazyVim starter..."
-    rm -rf ~/.config/nvim
-    git clone https://github.com/LazyVim/starter ~/.config/nvim
-fi
-
-# 7. Fish as default shell
+# 6. Fish as default shell
 FISH="$(command -v fish 2>/dev/null || true)"
 if [ -n "$FISH" ] && [ "$(basename "$SHELL")" != "fish" ]; then
     grep -q "$FISH" /etc/shells 2>/dev/null || echo "$FISH" | sudo tee -a /etc/shells

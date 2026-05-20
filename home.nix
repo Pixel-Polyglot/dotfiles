@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home.username = "frank";
@@ -18,6 +18,15 @@
   home.sessionVariables = {
     TERMINFO_DIRS = "${pkgs.ghostty.terminfo}/share/terminfo";
   };
+
+  home.activation.updateLazyVim = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    if [ -d ~/.config/nvim/.git ]; then
+      $DRY_RUN_CMD git -C ~/.config/nvim pull
+    else
+      $DRY_RUN_CMD rm -rf ~/.config/nvim
+      $DRY_RUN_CMD git clone https://github.com/LazyVim/starter ~/.config/nvim
+    fi
+  '';
 
   programs.home-manager.enable = true;
   programs.fish.enable = true;
