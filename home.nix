@@ -7,7 +7,6 @@
   targets.genericLinux.enable = true;
 
   home.packages = with pkgs; [
-    zellij
     neovim
     just
     ghostty
@@ -15,10 +14,12 @@
     sshfs
     opencode
     github-cli
+    fastfetch
   ];
 
   home.sessionVariables = {
     TERMINFO_DIRS = "${pkgs.ghostty.terminfo}/share/terminfo";
+    COLORTERM = "truecolor";
   };
 
   home.activation.updateLazyVim = lib.hm.dag.entryAfter ["writeBoundary"] ''
@@ -33,7 +34,23 @@
   xdg.configFile."nvim/lua/plugins/neogit.lua".source = ./nvim/neogit.lua;
 
   programs.home-manager.enable = true;
-  programs.fish.enable = true;
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = ''
+      set -g fish_greeting
+      fastfetch
+      if set -q SSH_CONNECTION; and not set -q ZELLIJ
+        zellij attach -c 2>/dev/null; and kill $fish_pid
+      end
+    '';
+  };
+  programs.zellij = {
+    enable = true;
+    settings = {
+      pane_frames = false;
+      show_startup_tips = false;
+    };
+  };
   programs.starship.enable = true;
 
   programs.git = {
