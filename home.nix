@@ -14,6 +14,7 @@
     bluespec
     sshfs
     opencode
+    github-cli
   ];
 
   home.sessionVariables = {
@@ -42,6 +43,7 @@
       user.email = "fdeweers@gmail.com";
       github.user = "Pixel-Polyglot";
       init.defaultBranch = "main";
+      credential.helper = ["!gh auth git-credential"];
     };
   };
 }
