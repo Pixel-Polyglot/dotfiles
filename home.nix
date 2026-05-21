@@ -7,12 +7,13 @@
   targets.genericLinux.enable = true;
 
   home.packages = with pkgs; [
-    tmux
+    zellij
     neovim
     just
     ghostty
     bluespec
     sshfs
+    opencode
   ];
 
   home.sessionVariables = {
