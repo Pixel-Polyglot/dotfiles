@@ -22,16 +22,23 @@
     COLORTERM = "truecolor";
   };
 
-  home.activation.updateLazyVim = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    if [ -d ~/.config/nvim/.git ]; then
-      $DRY_RUN_CMD git -C ~/.config/nvim pull
-    else
+  home.activation.cloneLazyVim = lib.hm.dag.entryBefore ["writeBoundary"] ''
+    if [ ! -d ~/.config/nvim/.git ]; then
       $DRY_RUN_CMD rm -rf ~/.config/nvim
       $DRY_RUN_CMD git clone https://github.com/LazyVim/starter ~/.config/nvim
     fi
   '';
 
+  home.activation.pullLazyVim = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    if [ -d ~/.config/nvim/.git ]; then
+      $DRY_RUN_CMD git -C ~/.config/nvim pull
+    fi
+  '';
+
   xdg.configFile."nvim/lua/plugins/neogit.lua".source = ./nvim/neogit.lua;
+  xdg.configFile."nvim/after/ftdetect/bsv.vim".source = ./nvim/after/ftdetect/bsv.vim;
+  xdg.configFile."nvim/after/syntax/bsv.vim".source = ./nvim/after/syntax/bsv.vim;
+  xdg.configFile."nvim/after/indent/bsv.vim".source = ./nvim/after/indent/bsv.vim;
 
   programs.home-manager.enable = true;
   programs.fish = {
