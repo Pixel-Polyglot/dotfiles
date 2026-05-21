@@ -36,6 +36,7 @@
   '';
 
   xdg.configFile."nvim/lua/plugins/neogit.lua".source = ./nvim/neogit.lua;
+  xdg.configFile."nvim/lua/plugins/colorschemes.lua".source = ./nvim/colorschemes.lua;
   xdg.configFile."nvim/after/ftdetect/bsv.vim".source = ./nvim/after/ftdetect/bsv.vim;
   xdg.configFile."nvim/after/syntax/bsv.vim".source = ./nvim/after/syntax/bsv.vim;
   xdg.configFile."nvim/after/indent/bsv.vim".source = ./nvim/after/indent/bsv.vim;
