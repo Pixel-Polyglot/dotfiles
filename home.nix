@@ -15,6 +15,7 @@
     opencode
     github-cli
     fastfetch
+    surfer
   ];
 
   home.sessionVariables = {
